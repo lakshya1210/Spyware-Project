@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <h1>Decrypted Files Dashboard</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul>
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button" onclick="openTab('keylogger')">Keylogger Files</button>
+            <button class="tab-button" onclick="openTab('clipboard')">Clipboard Files</button>
+            <button class="tab-button" onclick="openTab('screenshot')">Screenshot Files</button>
+        </div>
+
+        <section id="keylogger" class="tab-content">
+            <h2>Keylogger Files</h2>
+            <table class="file-table">
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in keylogger_files %}
+                    <tr>
+                        <td>{{ file }}</td>
+                        <td>
+                            <a href="{{ url_for('download_file', category='keylogger', filename=file) }}" class="btn btn-download">Download</a>
+                            <form action="{{ url_for('delete_file', category='keylogger', filename=file) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this file?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section id="clipboard" class="tab-content" style="display:none;">
+            <h2>Clipboard Files</h2>
+            <table class="file-table">
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in clipboard_files %}
+                    <tr>
+                        <td>{{ file }}</td>
+                        <td>
+                            <a href="{{ url_for('download_file', category='clipboard', filename=file) }}" class="btn btn-download">Download</a>
+                            <form action="{{ url_for('delete_file', category='clipboard', filename=file) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this file?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section id="screenshot" class="tab-content" style="display:none;">
+            <h2>Screenshot Files</h2>
+            <table class="file-table">
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in screenshot_files %}
+                    <tr>
+                        <td>{{ file }}</td>
+                        <td>
+                            <a href="{{ url_for('download_file', category='screenshot', filename=file) }}" class="btn btn-download">Download</a>
+                            <form action="{{ url_for('delete_file', category='screenshot', filename=file) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this file?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
